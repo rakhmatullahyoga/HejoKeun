@@ -22,10 +22,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.rakhmatullahyoga.hejokeun.R;
+import com.rakhmatullahyoga.hejokeun.fragments.GiveRewardFragment;
 import com.rakhmatullahyoga.hejokeun.fragments.ItemFragment;
 import com.rakhmatullahyoga.hejokeun.fragments.ReportFragment;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity
             else
                 sFragmentManager.beginTransaction().show(sMapFragment).commit();
         } else if (id == R.id.nav_list) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new GiveRewardFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -122,6 +127,15 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         // Enable MyLocation
         googleMap.setMyLocationEnabled(true);
+
+        // Generate 10 random spot
+        for(int i=0; i<10; i++) {
+            double randomLat = -6.94; // + 0.06
+            double randomLng = 107.54; // + 0.1
+            float color = i%2==0 ? BitmapDescriptorFactory.HUE_RED : BitmapDescriptorFactory.HUE_GREEN;
+            LatLng loc = new LatLng(randomLat+(new Random().nextDouble()*0.06),randomLng+(new Random().nextDouble()*0.1));
+            googleMap.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.defaultMarker(color)));
+        }
 
         // Move camera to Kota Bandung
         double latitude = -6.914744;

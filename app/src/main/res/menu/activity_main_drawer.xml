@@ -6,11 +6,11 @@
             android:title="Report sampah"
             android:checked="true" />
         <item android:id="@+id/nav_rewards" android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Rewards" />
+            android:title="Rewards saya" />
         <item android:id="@+id/nav_petasampah" android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Peta sampah" />
         <item android:id="@+id/nav_list" android:icon="@android:drawable/ic_menu_manage"
-            android:title="Daftar sampah" />
+            android:title="Beri reward" />
     </group>
 
 </menu>
