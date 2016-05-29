@@ -3,7 +3,8 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_main" android:icon="@android:drawable/ic_menu_camera"
-            android:title="Report sampah" />
+            android:title="Report sampah"
+            android:checked="true" />
         <item android:id="@+id/nav_rewards" android:icon="@android:drawable/ic_menu_gallery"
             android:title="Rewards" />
         <item android:id="@+id/nav_petasampah" android:icon="@android:drawable/ic_menu_slideshow"
@@ -11,14 +12,5 @@
         <item android:id="@+id/nav_list" android:icon="@android:drawable/ic_menu_manage"
             android:title="Daftar sampah" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
-            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>

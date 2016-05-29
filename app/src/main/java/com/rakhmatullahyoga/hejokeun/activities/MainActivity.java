@@ -1,9 +1,13 @@
 package com.rakhmatullahyoga.hejokeun.activities;
 
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,15 +18,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.rakhmatullahyoga.hejokeun.R;
+import com.rakhmatullahyoga.hejokeun.fragments.ItemFragment;
+import com.rakhmatullahyoga.hejokeun.fragments.ReportFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private SupportMapFragment sMapFragment;
+    private android.app.FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new ReportFragment()).commit();
     }
 
     @Override
@@ -81,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         FragmentManager sFragmentManager = getSupportFragmentManager();
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -89,19 +101,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_main) {
-            // Handle the camera action
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ReportFragment()).commit();
         } else if (id == R.id.nav_rewards) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemFragment()).commit();
         } else if (id == R.id.nav_petasampah) {
             if(!sMapFragment.isAdded())
                 sFragmentManager.beginTransaction().add(R.id.map, sMapFragment).commit();
             else
                 sFragmentManager.beginTransaction().show(sMapFragment).commit();
         } else if (id == R.id.nav_list) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
@@ -112,6 +120,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        // Enable MyLocation
+        googleMap.setMyLocationEnabled(true);
 
+        // Move camera to Kota Bandung
+        double latitude = -6.914744;
+        double longitude = 107.609810;
+        LatLng myPosition = new LatLng(latitude, longitude);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, 12));
     }
 }
