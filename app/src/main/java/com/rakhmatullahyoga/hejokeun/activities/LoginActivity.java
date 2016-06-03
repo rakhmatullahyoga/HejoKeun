@@ -29,7 +29,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rakhmatullahyoga.hejokeun.R;
 
@@ -343,7 +342,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                Intent i = new Intent(getApplicationContext(), RumahTanggaActivity.class);
                 startActivity(i);
                 finish();
             } else {

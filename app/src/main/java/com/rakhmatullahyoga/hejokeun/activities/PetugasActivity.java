@@ -1,13 +1,9 @@
 package com.rakhmatullahyoga.hejokeun.activities;
 
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,23 +23,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.rakhmatullahyoga.hejokeun.R;
 import com.rakhmatullahyoga.hejokeun.fragments.GiveRewardFragment;
-import com.rakhmatullahyoga.hejokeun.fragments.ItemFragment;
 import com.rakhmatullahyoga.hejokeun.fragments.ReportFragment;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity
+public class PetugasActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private SupportMapFragment sMapFragment;
     private android.app.FragmentManager fragmentManager;
+    private FragmentManager sFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_petugas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("HejoKeun!");
+        toolbar.setTitle("SISA");
         setSupportActionBar(toolbar);
 
         sMapFragment = SupportMapFragment.newInstance();
@@ -57,8 +53,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, new ReportFragment()).commit();
+
+        sFragmentManager = getSupportFragmentManager();
+        if(!sMapFragment.isAdded())
+            sFragmentManager.beginTransaction().add(R.id.map, sMapFragment).commit();
+        else
+            sFragmentManager.beginTransaction().show(sMapFragment).commit();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.petugas, menu);
         return true;
     }
 
@@ -96,8 +96,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentManager sFragmentManager = getSupportFragmentManager();
-
+        fragmentManager = getFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -105,16 +104,13 @@ public class MainActivity extends AppCompatActivity
             sFragmentManager.beginTransaction().hide(sMapFragment).commit();
         }
 
-        if (id == R.id.nav_main) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new ReportFragment()).commit();
-        } else if (id == R.id.nav_rewards) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemFragment()).commit();
-        } else if (id == R.id.nav_petasampah) {
+        if (id == R.id.nav_petasampah) {
             if(!sMapFragment.isAdded())
                 sFragmentManager.beginTransaction().add(R.id.map, sMapFragment).commit();
             else
                 sFragmentManager.beginTransaction().show(sMapFragment).commit();
-        } else if (id == R.id.nav_list) {
+        }
+        else if (id == R.id.nav_list) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new GiveRewardFragment()).commit();
         }
 
